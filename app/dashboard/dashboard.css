@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: auto;
   padding: 1rem;
-  font-family: var(--font-geist-sans);
+  font-family: system-ui, sans-serif;
   color: #1e1e1e;
 }
 
@@ -13,6 +13,34 @@
   font-weight: 700;
   margin-bottom: 1rem;
   color: #0366d6;
+}
+
+.domain-selector {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.domain-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.domain-btn:hover {
+  border-color: #0366d6;
+  color: #0366d6;
+}
+.domain-btn.active {
+  background: #0366d6;
+  color: #fff;
+  border-color: #0366d6;
 }
 
 .summary-cards {
@@ -88,6 +116,13 @@
 .dashboard-footer {
   text-align: center;
   margin-top: 2rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: #888;
+  padding: 3rem 1rem;
+  font-size: 1.1rem;
 }
 
 /* Mobile tweaks */

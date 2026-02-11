@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 const EventSchema = new Schema({
+  domain: { type: String, required: true },
   eventType: {
     type: String,
     enum: ["page_view", "click", "duration"],
@@ -21,6 +22,6 @@ const EventSchema = new Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
-EventSchema.index({ sessionId: 1, timestamp: 1 });
+EventSchema.index({ domain: 1, eventType: 1, timestamp: 1 });
 
 export default models.Event || model("Event", EventSchema);

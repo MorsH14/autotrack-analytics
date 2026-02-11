@@ -8,12 +8,13 @@ export const connectDB = async () => {
     return;
   }
 
-  if (!process.env.MONGO_URI_LOCAL) {
+  const uri = process.env.MONGODB_URI || process.env.MONGO_URI_LOCAL;
+  if (!uri) {
     throw new Error("MONGODB_URI is not defined");
   }
 
   try {
-    await mongoose.connect(process.env.MONGO_URI_LOCAL);
+    await mongoose.connect(uri);
     isConnected = true;
     console.log("MongoDB connected successfully");
   } catch (error) {

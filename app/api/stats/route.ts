@@ -1,28 +1,36 @@
 import connectDB from "@/lib/db";
 import Event from "@/modals/Event";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
+    const password = req.headers.get("x-admin-password");
+    if (!password || password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json(
+        { error: "Unauthorized." },
+        { status: 401 },
+      );
+    }
+
     await connectDB();
 
-    // --- 1. Page views per URL ---
+    const domain = req.nextUrl.searchParams.get("domain");
+    const matchFilter = domain ? { domain } : {};
+
     const pageViews = await Event.aggregate([
-      { $match: { eventType: "page_view" } },
+      { $match: { ...matchFilter, eventType: "page_view" } },
       { $group: { _id: "$url", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
     ]);
 
-    // --- 2. Clicks per element ---
     const clicks = await Event.aggregate([
-      { $match: { eventType: "click" } },
+      { $match: { ...matchFilter, eventType: "click" } },
       { $group: { _id: "$element", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
     ]);
 
-    // --- 3. Average duration per URL ---
     const durations = await Event.aggregate([
-      { $match: { eventType: "duration" } },
+      { $match: { ...matchFilter, eventType: "duration" } },
       { $group: { _id: "$url", avgDuration: { $avg: "$duration" } } },
       { $sort: { avgDuration: -1 } },
     ]);
