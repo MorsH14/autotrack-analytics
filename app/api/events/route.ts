@@ -13,9 +13,11 @@ export async function POST(req: NextRequest) {
       sessionId,
       referrer = "",
       device = "desktop",
+      element = "",
+      text = "",
+      duration = 0,
     } = data;
 
-    // Validate required fields
     if (!eventType || !url || !sessionId) {
       return NextResponse.json(
         { error: "Missing required fields." },
@@ -23,13 +25,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate enums
     if (!["page_view", "click", "duration"].includes(eventType)) {
       return NextResponse.json(
         { error: "Invalid event type." },
         { status: 400 },
       );
     }
+
     if (!["desktop", "mobile", "tablet"].includes(device)) {
       return NextResponse.json(
         { error: "Invalid device type." },
@@ -37,10 +39,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Capture user agent
     const userAgent = req.headers.get("user-agent") || "unknown";
 
-    // Create the event
     const event = await Event.create({
       eventType,
       url,
@@ -48,6 +48,9 @@ export async function POST(req: NextRequest) {
       referrer,
       device,
       userAgent,
+      element,
+      text,
+      duration,
     });
 
     return NextResponse.json({

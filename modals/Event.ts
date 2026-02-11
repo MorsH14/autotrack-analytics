@@ -15,6 +15,9 @@ const EventSchema = new Schema({
     enum: ["desktop", "mobile", "tablet"],
     default: "desktop",
   },
+  element: { type: String, default: "" }, // clicked element tag + id
+  text: { type: String, default: "" }, // clicked element text
+  duration: { type: Number, default: 0 }, // seconds on page
   timestamp: { type: Date, default: Date.now },
 });
 
