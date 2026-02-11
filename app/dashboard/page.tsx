@@ -1,9 +1,9 @@
 // app/dashboard/page.tsx
 "use client";
 import { useEffect, useState } from "react";
-import SummaryCards from "@/components/SummaryCards";
-import StatsChart from "@/components/StatsChart";
 import "./dashboard.css";
+import SummaryCards from "@/Components/SummaryCards";
+import StatsChart from "@/Components/StatsChart";
 
 type StatsData = {
     pageViews: { _id: string; count: number }[];
