@@ -3,20 +3,21 @@ import { Schema, model, models } from "mongoose";
 const EventSchema = new Schema({
   eventType: {
     type: String,
-    required: true,
     enum: ["page_view", "click", "duration"],
+    required: true,
   },
   url: { type: String, required: true },
   referrer: { type: String, default: "" },
   sessionId: { type: String, required: true },
-  timestamp: { type: Date, default: Date.now },
+  userAgent: { type: String, required: true },
   device: {
     type: String,
     enum: ["desktop", "mobile", "tablet"],
     default: "desktop",
   },
+  timestamp: { type: Date, default: Date.now },
 });
 
-const Event = models.Event || model("Event", EventSchema);
+EventSchema.index({ sessionId: 1, timestamp: 1 });
 
-export default Event;
+export default models.Event || model("Event", EventSchema);

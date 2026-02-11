@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const data = await req.json();
-
     const {
       eventType,
       url,
@@ -16,6 +15,7 @@ export async function POST(req: NextRequest) {
       device = "desktop",
     } = data;
 
+    // Validate required fields
     if (!eventType || !url || !sessionId) {
       return NextResponse.json(
         { error: "Missing required fields." },
@@ -23,23 +23,42 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Validate enums
+    if (!["page_view", "click", "duration"].includes(eventType)) {
+      return NextResponse.json(
+        { error: "Invalid event type." },
+        { status: 400 },
+      );
+    }
     if (!["desktop", "mobile", "tablet"].includes(device)) {
       return NextResponse.json(
-        { error: "Invalid device type" },
+        { error: "Invalid device type." },
         { status: 400 },
       );
     }
 
-    await Event.create({ eventType, url, sessionId, referrer, device });
+    // Capture user agent
+    const userAgent = req.headers.get("user-agent") || "unknown";
+
+    // Create the event
+    const event = await Event.create({
+      eventType,
+      url,
+      sessionId,
+      referrer,
+      device,
+      userAgent,
+    });
 
     return NextResponse.json({
       status: true,
-      message: "Successfully created event.",
+      message: "Event created successfully.",
+      event,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error("Server error:", error);
     return NextResponse.json(
-      { error: "An error occurred while creating the event." },
+      { error: error.message || "Internal server error." },
       { status: 500 },
     );
   }
