@@ -1,5 +1,5 @@
 import connectDB from "@/lib/db";
-import Event from "@/modals/Event";
+import Event from "@/models/Event";
 import { NextRequest, NextResponse } from "next/server";
 
 const corsHeaders = {
