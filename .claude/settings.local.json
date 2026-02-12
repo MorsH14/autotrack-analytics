@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next build:*)",
+      "Bash(if exist \"C:\\\\Users\\\\USER\\\\package-lock.json\" echo \"FOUND stray lockfile\" else echo \"no stray lockfile\")",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: rebuild as self-hosted multi-site analytics platform\n\nReplace the single-site prototype with a general-purpose self-hosted\nanalytics tool. Any website can now be tracked by embedding a single\n<script> tag — the domain is auto-detected, no registration or site\nIDs needed.\n\n- Add embeddable public/tracker.js with auto-endpoint detection\n- Add CORS support and auto domain extraction to /api/events\n- Add admin password auth \\(/api/auth\\) and domain listing \\(/api/domains\\)\n- Protect /api/stats with admin password, add per-domain filtering\n- Rebuild dashboard with admin login gate and domain selector\n- Add landing page with setup instructions and copy-to-clipboard snippet\n- Fix root layout \\(server component\\), fix turbopack root config\n- Switch DB connection to prefer MONGODB_URI \\(Atlas\\) over local\n- Remove old modules/ structure, client-side tracker, and broken pages\n- Rewrite README with full docs, architecture, API reference, and deploy guide\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
+    ]
+  }
+}
